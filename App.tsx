@@ -21,9 +21,6 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // EMAIL VALIDATION
-  const emailRegex =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // SIGNUP
   const handleSignup = () => {
@@ -33,10 +30,13 @@ export default function App() {
       return;
     }
 
-    if (!emailRegex.test(email)) {
-      Alert.alert('Invalid Email', 'Invalid email');
-      return;
-    }
+     if (!email.includes('@gmail.com')) {
+    Alert.alert(
+      'Invalid Email',
+      'Enter proper Email'
+    );
+    return;
+  }
 
     if (password.length < 6) {
       Alert.alert(
@@ -84,7 +84,7 @@ export default function App() {
       }}
     >
 
-      {/* DARK OVERLAY */}
+      
 
       <View
         style={{
@@ -96,7 +96,7 @@ export default function App() {
         }}
       >
 
-        {/* TITLE */}
+        
 
         <Text
           style={{
