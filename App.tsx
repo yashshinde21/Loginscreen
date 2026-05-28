@@ -34,7 +34,7 @@ export default function App() {
     }
 
     if (!emailRegex.test(email)) {
-      Alert.alert('Invalid Email', 'Enter proper email');
+      Alert.alert('Invalid Email', 'Invalid email');
       return;
     }
 
@@ -53,7 +53,7 @@ export default function App() {
         setPassword('');
       })
       .catch((error) => {
-        Alert.alert('Signup Error', error.message);
+        Alert.alert('Signup Error', 'Email already in Use');
       });
   };
 
