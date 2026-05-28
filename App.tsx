@@ -106,7 +106,7 @@ export default function App() {
             color: 'white',
           }}
         >
-          Firebase Login
+          Login Screen
         </Text>
 
         {/* EMAIL */}
