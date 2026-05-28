@@ -6,23 +6,24 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
-import app from './firebaseConfig';
-
-const auth = getAuth(app);
+import { auth } from './firebaseConfig';
 
 export default function App() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // EMAIL VALIDATION
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // SIGNUP
   const handleSignup = () => {
@@ -32,9 +33,24 @@ export default function App() {
       return;
     }
 
+    if (!emailRegex.test(email)) {
+      Alert.alert('Invalid Email', 'Enter proper email');
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert(
+        'Weak Password',
+        'Password must be at least 6 characters'
+      );
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         Alert.alert('Success', 'Account Created');
+        setEmail('');
+        setPassword('');
       })
       .catch((error) => {
         Alert.alert('Signup Error', error.message);
@@ -53,105 +69,140 @@ export default function App() {
       .then(() => {
         Alert.alert('Success', `Welcome ${email}`);
       })
-      .catch((error) => {
-        Alert.alert('Login Error', error.message);
+      .catch(() => {
+        Alert.alert('Login Error', 'Invalid email or password');
       });
   };
 
   return (
-      <ImageBackground
-  source={require('./assets/bg.jpg')}
-  resizeMode="cover"
-  style={{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  }}
->
 
-      <Text
+    <ImageBackground
+      source={require('./assets/login.webp')}
+      resizeMode="cover"
+      style={{
+        flex: 1,
+      }}
+    >
+
+      {/* DARK OVERLAY */}
+
+      <View
         style={{
-          fontSize: 28,
-          fontWeight: 'bold',
-          marginBottom: 30,
+          flex: 1,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 20,
         }}
       >
-        Login Screen
-      </Text>
 
-      <TextInput
-        placeholder="Enter Email"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={(text) => setEmail(text.toLowerCase())}
-        style={{
-          width: 280,
-          backgroundColor: 'white',
-          padding: 12,
-          borderRadius: 10,
-          marginBottom: 15,
-          borderWidth: 1,
-        }}
-      />
+        {/* TITLE */}
 
-      <TextInput
-        placeholder="Enter Password"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-        style={{
-          width: 280,
-          backgroundColor: 'white',
-          padding: 12,
-          borderRadius: 10,
-          marginBottom: 20,
-          borderWidth: 1,
-        }}
-      />
-
-      {/* LOGIN BUTTON */}
-      <TouchableOpacity
-        onPress={handleLogin}
-        style={{
-          width: 280,
-          backgroundColor: '#4CAF50',
-          padding: 14,
-          borderRadius: 10,
-          marginBottom: 15,
-        }}
-      >
         <Text
           style={{
-            color: 'white',
-            textAlign: 'center',
+            fontSize: 34,
             fontWeight: 'bold',
+            marginBottom: 40,
+            color: 'white',
           }}
         >
-          Login
+          Firebase Login
         </Text>
-      </TouchableOpacity>
 
-      {/* SIGNUP BUTTON */}
-      <TouchableOpacity
-        onPress={handleSignup}
-        style={{
-          width: 280,
-          backgroundColor: '#2196F3',
-          padding: 14,
-          borderRadius: 10,
-        }}
-      >
-        <Text
+        {/* EMAIL */}
+
+        <TextInput
+          placeholder="Enter Email"
+          placeholderTextColor="#ddd"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={(text) =>
+            setEmail(text.toLowerCase())
+          }
           style={{
+            width: 300,
+            backgroundColor: 'rgba(255,255,255,0.2)',
+            padding: 15,
+            borderRadius: 12,
+            marginBottom: 15,
             color: 'white',
-            textAlign: 'center',
-            fontWeight: 'bold',
+            borderWidth: 1,
+            borderColor: '#fff',
+            fontSize: 16,
+          }}
+        />
+
+        {/* PASSWORD */}
+
+        <TextInput
+          placeholder="Enter Password"
+          placeholderTextColor="#ddd"
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+          style={{
+            width: 300,
+            backgroundColor: 'rgba(255,255,255,0.2)',
+            padding: 15,
+            borderRadius: 12,
+            marginBottom: 25,
+            color: 'white',
+            borderWidth: 1,
+            borderColor: '#fff',
+            fontSize: 16,
+          }}
+        />
+
+        {/* LOGIN BUTTON */}
+
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={{
+            width: 300,
+            backgroundColor: '#00b894',
+            padding: 15,
+            borderRadius: 12,
+            marginBottom: 15,
           }}
         >
-          Create Account
-        </Text>
-      </TouchableOpacity>
-</ImageBackground>
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: 16,
+            }}
+          >
+            Login
+          </Text>
+        </TouchableOpacity>
+
+        {/* SIGNUP BUTTON */}
+
+        <TouchableOpacity
+          onPress={handleSignup}
+          style={{
+            width: 300,
+            backgroundColor: '#0984e3',
+            padding: 15,
+            borderRadius: 12,
+          }}
+        >
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: 16,
+            }}
+          >
+            Create Account
+          </Text>
+        </TouchableOpacity>
+
+      </View>
+
+    </ImageBackground>
   );
 }
