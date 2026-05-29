@@ -53,7 +53,7 @@ export default function App() {
         setPassword('');
       })
       .catch((error) => {
-        Alert.alert('Signup Error', 'Email already in Use');
+        Alert.alert('Signup Error', 'Email already in Use.');
       });
   };
 
