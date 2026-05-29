@@ -33,6 +33,8 @@ export default function RegisterScreen({
 
   const [email, setEmail] = useState('');
 
+  const [mobile, setMobile] = useState('');
+
   const [password, setPassword] = useState('');
 
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -51,6 +53,7 @@ export default function RegisterScreen({
     if (
       name === '' ||
       email === '' ||
+      mobile === '' ||
       password === '' ||
       confirmPassword === ''
     ) {
@@ -72,6 +75,17 @@ export default function RegisterScreen({
 
       return;
     }
+
+      if (mobile.length !== 10) {
+
+      Alert.alert(
+       'Invalid Mobile Number',
+       'Mobile number must be 10 digits'
+      );
+
+  return;
+}
+
 
     if (password.length < 6) {
 
@@ -120,12 +134,13 @@ export default function RegisterScreen({
 
       await setDoc(
         doc(db, 'users', user.uid),
-        {
-          name: name,
-          email: email,
-          uid: user.uid,
-          createdAt: new Date(),
-        }
+       {
+           name: name,
+            email: email,
+            mobile: mobile,
+           uid: user.uid,
+           createdAt: new Date(),
+       }
       );
 
 
@@ -215,6 +230,31 @@ export default function RegisterScreen({
           }}
         />
 
+
+
+        <TextInput
+          placeholder="Enter Mobile Number"
+           placeholderTextColor="#ddd"
+           keyboardType="number-pad"
+           maxLength={10}
+           value={mobile}
+          onChangeText={(text) =>
+           setMobile(text.replace(/[^0-9]/g, ''))
+           }
+          style={{
+              width: 300,
+               backgroundColor:
+              'rgba(255,255,255,0.2)',
+                padding: 15,
+                borderRadius: 12,
+                marginBottom: 15,
+                color: 'white',
+                borderWidth: 1,
+               borderColor: '#fff',
+                fontSize: 16,
+            }}
+          />
+
         
 
         <View
@@ -241,7 +281,7 @@ export default function RegisterScreen({
             style={{
               flex: 1,
               padding: 15,
-              color: 'black',
+              color: 'white',
               fontSize: 16,
             }}
           />
