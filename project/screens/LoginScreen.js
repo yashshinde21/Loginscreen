@@ -9,82 +9,67 @@ import {
   ImageBackground,
 } from 'react-native';
 
+import Ionicons from '@react-native-vector-icons/ionicons';
+
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 
-import { auth } from './firebaseConfig';
+import { auth } from '../../firebaseConfig';
 
-export default function App() {
+export default function LoginScreen({
+  navigation,
+}) {
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
+  const [password, setPassword] =
+    useState('');
 
-  
-  const handleSignup = () => {
+  const [showPassword, setShowPassword] =
+    useState(false);
 
-    if (email === '' || password === '') {
-      Alert.alert('Error', 'Please fill all fields');
-      return;
-    }
-
-     if (!email.includes('@gmail.com')) {
-    Alert.alert(
-      'Invalid Email',
-      'Enter proper Email'
-    );
-    return;
-  }
-
-    if (password.length < 6) {
-      Alert.alert(
-        'Weak Password',
-        'Password must be at least 6 characters'
-      );
-      return;
-    }
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        Alert.alert('Success', 'Account Created');
-        setEmail('');
-        setPassword('');
-      })
-      .catch((error) => {
-        Alert.alert('Signup Error', 'Email already in Use.');
-      });
-  };
-
-  
   const handleLogin = () => {
 
     if (email === '' || password === '') {
-      Alert.alert('Error', 'Please fill all fields');
+
+      Alert.alert(
+        'Error',
+        'Please fill all fields'
+      );
+
       return;
     }
 
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    )
       .then(() => {
-        Alert.alert('Success', `Welcome ${email}`);
+
+        Alert.alert(
+          'Success',
+          `Welcome ${email}`
+        );
       })
+
       .catch(() => {
-        Alert.alert('Login Error', 'Invalid email or password');
+
+        Alert.alert(
+          'Login Error',
+          'Invalid email or password'
+        );
       });
   };
 
   return (
 
     <ImageBackground
-      source={require('./assets/login.webp')}
+      source={require('../../assets/login.webp')}
       resizeMode="cover"
-      style={{
-        flex: 1,
-      }}
+      style={{ flex: 1 }}
     >
-
-      
 
       <View
         style={{
@@ -95,8 +80,6 @@ export default function App() {
           padding: 20,
         }}
       >
-
-        
 
         <Text
           style={{
@@ -122,7 +105,8 @@ export default function App() {
           }
           style={{
             width: 300,
-            backgroundColor: 'rgba(255,255,255,0.2)',
+            backgroundColor:
+              'rgba(255,255,255,0.2)',
             padding: 15,
             borderRadius: 12,
             marginBottom: 15,
@@ -133,26 +117,58 @@ export default function App() {
           }}
         />
 
-       
+        
 
-        <TextInput
-          placeholder="Enter Password"
-          placeholderTextColor="#ddd"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
+        <View
           style={{
             width: 300,
-            backgroundColor: 'rgba(255,255,255,0.2)',
-            padding: 15,
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor:
+              'rgba(255,255,255,0.2)',
             borderRadius: 12,
             marginBottom: 25,
-            color: 'white',
             borderWidth: 1,
             borderColor: '#fff',
-            fontSize: 16,
+            paddingHorizontal: 10,
           }}
-        />
+        >
+
+          <TextInput
+            placeholder="Enter Password"
+            placeholderTextColor="#ddd"
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+            style={{
+              flex: 1,
+              padding: 15,
+              color: 'white',
+              fontSize: 16,
+            }}
+          />
+
+          <TouchableOpacity
+            onPress={() =>
+              setShowPassword(
+                !showPassword
+              )
+            }
+          >
+
+            <Ionicons
+              name={
+                showPassword
+                  ? 'eye'
+                  : 'eye-off'
+              }
+              size={24}
+              color="white"
+            />
+
+          </TouchableOpacity>
+
+        </View>
 
         
 
@@ -166,6 +182,7 @@ export default function App() {
             marginBottom: 15,
           }}
         >
+
           <Text
             style={{
               color: 'white',
@@ -176,29 +193,26 @@ export default function App() {
           >
             Login
           </Text>
+
         </TouchableOpacity>
 
         
 
         <TouchableOpacity
-          onPress={handleSignup}
-          style={{
-            width: 300,
-            backgroundColor: '#0984e3',
-            padding: 15,
-            borderRadius: 12,
-          }}
+          onPress={() =>
+            navigation.navigate('Register')
+          }
         >
+
           <Text
             style={{
               color: 'white',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: 16,
+              fontSize: 15,
             }}
           >
-            Create Account
+            Don't have an account? Register
           </Text>
+
         </TouchableOpacity>
 
       </View>

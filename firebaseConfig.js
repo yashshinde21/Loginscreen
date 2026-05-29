@@ -7,6 +7,10 @@ import {
   getReactNativePersistence,
 } from 'firebase/auth';
 
+import {
+  getFirestore,
+} from 'firebase/firestore';
+
 const firebaseConfig = {
   apiKey: 'AIzaSyBsdpazHIZ4cf7ygJ56khXKo2bHl_hXqSY',
   authDomain: 'myapp-9b0ee.firebaseapp.com',
@@ -21,5 +25,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
+
+// FIRESTORE DATABASE
+export const db = getFirestore(app);
 
 export default app;
