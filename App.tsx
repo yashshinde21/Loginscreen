@@ -22,7 +22,7 @@ export default function App() {
   const [password, setPassword] = useState('');
 
 
-  // SIGNUP
+  
   const handleSignup = () => {
 
     if (email === '' || password === '') {
@@ -57,7 +57,7 @@ export default function App() {
       });
   };
 
-  // LOGIN
+  
   const handleLogin = () => {
 
     if (email === '' || password === '') {
@@ -106,10 +106,10 @@ export default function App() {
             color: 'white',
           }}
         >
-          Login Screen
+          Login
         </Text>
 
-        {/* EMAIL */}
+        
 
         <TextInput
           placeholder="Enter Email"
@@ -133,7 +133,7 @@ export default function App() {
           }}
         />
 
-        {/* PASSWORD */}
+       
 
         <TextInput
           placeholder="Enter Password"
@@ -154,7 +154,7 @@ export default function App() {
           }}
         />
 
-        {/* LOGIN BUTTON */}
+        
 
         <TouchableOpacity
           onPress={handleLogin}
@@ -178,7 +178,7 @@ export default function App() {
           </Text>
         </TouchableOpacity>
 
-        {/* SIGNUP BUTTON */}
+        
 
         <TouchableOpacity
           onPress={handleSignup}
